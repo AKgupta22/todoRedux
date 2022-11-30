@@ -2,9 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-
   return (
-    <nav className="navbar navbar-expand-lg bg-warning">
+    <nav className="navbar navbar-expand-lg bg-success">
       <div className="container-fluid">
         <Link className="navbar-brand text-light" to="/">
           Home
@@ -26,27 +25,10 @@ export default function Navbar() {
               <Link
                 className="nav-link text-light active"
                 aria-current="page"
-                to="/about"
+                to="/"
               >
-                About
+                ToDO
               </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-light" to="/contact">
-                Contact
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-light" to="/message">
-                Message
-              </Link>
-            </li>
-            <li className="nav-item">
-              {localStorage.getItem("login")?
-                <Link className="nav-link text-light" to="/login">
-                  Login
-                </Link>
-               :""}
             </li>
           </ul>
         </div>
