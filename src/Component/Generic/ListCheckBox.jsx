@@ -1,7 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Marking } from "../../Redux/Actions";
+import { useDispatch } from "react-redux";
 
-export default function ListCheckBox({ item, marked, i }) {
+export default function ListCheckBox({ item, i }) {
+  const dispatch = useDispatch();
   return (
     <div>
       <input
@@ -10,7 +13,7 @@ export default function ListCheckBox({ item, marked, i }) {
         value=""
         id={`${i}CheckboxStretched`}
         checked={item.status === "done" ? true : false}
-        onChange={() => marked(i)}
+        onChange={() => dispatch(Marking(i))}
       />
       <label
         className="form-check-label stretched-link"
@@ -22,7 +25,6 @@ export default function ListCheckBox({ item, marked, i }) {
   );
 }
 ListCheckBox.propTypes = {
-  marked: PropTypes.func,
   item: PropTypes.object,
-  i: PropTypes.number,
+  i: PropTypes.number
 };
