@@ -1,4 +1,4 @@
-const initial = JSON.parse(localStorage.getItem("todo"));
+const initial = !localStorage.getItem("todo") ? [] : JSON.parse(localStorage.getItem("todo"))
 const Todo = (todolist = initial, action) => {
     if (action.type === "ADD-TODO") {
         const newdata = [
