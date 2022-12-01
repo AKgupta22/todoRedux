@@ -22,6 +22,7 @@ export default function Home() {
         editable={editable}
         setEditable={setEditable}
         editvalue={editvalue}
+        copiedData={copiedData}
       />
       {copiedData?.length > 0 ? (
         <div>

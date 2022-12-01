@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { editTodos } from "../../Redux/Actions";
 import { useDispatch } from "react-redux";
@@ -11,6 +11,23 @@ export default function ListForm({
   editvalue,
 }) {
   const dispatch = useDispatch();
+
+  const [clickedOutside, setClickedOutside] = useState(false);
+  const myRef = useRef();
+
+  const ClickOutside = (e) => {
+    if (!myRef.current.contains(e.target)) {
+      setClickedOutside(true);
+    }
+  };
+
+  const ClickInside = () => setClickedOutside(false);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", ClickOutside);
+    return () => document.removeEventListener("mousedown", ClickOutside);
+  });
+
   const editTodo = (i) => {
     dispatch(editTodos(editvalue, i));
     setEditable(-1);
@@ -19,11 +36,14 @@ export default function ListForm({
     <form className="w-100" onSubmit={() => editTodo(i)}>
       {" "}
       <input
+        ref={myRef}
         type="text"
         className="form-control"
         defaultValue={item.task}
         required
         onChange={(e) => setEditvalue(e.target.value)}
+        onClick={() => ClickInside()}
+        {...(clickedOutside ? editTodo(i) : "")}
       />
     </form>
   );
@@ -33,5 +53,5 @@ ListForm.propTypes = {
   item: PropTypes.object,
   i: PropTypes.number,
   setEditvalue: PropTypes.func,
-  editvalue:PropTypes.string
+  editvalue: PropTypes.string,
 };

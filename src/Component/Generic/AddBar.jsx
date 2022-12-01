@@ -1,24 +1,29 @@
-import React ,{useState} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { addTodo, editTodos } from "../../Redux/Actions";
+import { addTodo } from "../../Redux/Actions";
 
-export default function AddBar({ editable,setEditable,editvalue }) {
+export default function AddBar({ copiedData }) {
   const [inputclass, setInputclass] = useState("form-control");
   const [todo, setTodo] = useState("");
   const dispatch = useDispatch();
 
+  const Validate = (item) => {
+    const result = copiedData.findIndex(
+      (p) => p.task.toUpperCase() === item.toUpperCase()
+    );
+    return result;
+  };
+  
   const postData = (e) => {
-    const Regex = new RegExp("[a-zA-Z0-9]{1,}");
     e.preventDefault();
+    const Regex = new RegExp("[a-zA-Z0-9]{1,}");
     if (Regex.test(todo) === true) {
       setInputclass("form-control");
-      dispatch(addTodo(todo, "pending"));
-      setTodo("");
-      if (editable !== -1) {
-        dispatch(editTodos(editvalue, editable));
-        setEditable(-1);
-      }
+      if (Validate(todo) === -1) {
+        dispatch(addTodo(todo, "pending"));
+        setTodo("");
+      } else alert("Duplicate todo");
     } else {
       setInputclass("form-control input-validate");
     }
@@ -45,5 +50,5 @@ export default function AddBar({ editable,setEditable,editvalue }) {
 AddBar.propTypes = {
   editable: PropTypes.number,
   setEditable: PropTypes.func,
-  editvalue: PropTypes.string
+  editvalue: PropTypes.string,
 };
