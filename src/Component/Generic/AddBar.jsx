@@ -1,7 +1,29 @@
-import React from "react";
+import React ,{useState} from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { addTodo, editTodos } from "../../Redux/Actions";
 
-export default function AddBar({ postData, inputclass, todo, setTodo }) {
+export default function AddBar({ editable,setEditable,editvalue }) {
+  const [inputclass, setInputclass] = useState("form-control");
+  const [todo, setTodo] = useState("");
+  const dispatch = useDispatch();
+
+  const postData = (e) => {
+    const Regex = new RegExp("[a-zA-Z0-9]{1,}");
+    e.preventDefault();
+    if (Regex.test(todo) === true) {
+      setInputclass("form-control");
+      dispatch(addTodo(todo, "pending"));
+      setTodo("");
+      if (editable !== -1) {
+        dispatch(editTodos(editvalue, editable));
+        setEditable(-1);
+      }
+    } else {
+      setInputclass("form-control input-validate");
+    }
+  };
+
   return (
     <form className="mt-2" onSubmit={postData}>
       <div className="mb-3">
@@ -21,8 +43,7 @@ export default function AddBar({ postData, inputclass, todo, setTodo }) {
   );
 }
 AddBar.propTypes = {
-  postData: PropTypes.func,
-  inputclass: PropTypes.string,
-  todo: PropTypes.string,
-  setTodo: PropTypes.func,
+  editable: PropTypes.number,
+  setEditable: PropTypes.func,
+  editvalue: PropTypes.string
 };

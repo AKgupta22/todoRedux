@@ -1,7 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { editTodos } from "../../Redux/Actions";
+import { useDispatch } from "react-redux";
 
-export default function ListForm({ editTodo, i, item, setEditvalue }) {
+export default function ListForm({
+  i,
+  item,
+  setEditvalue,
+  setEditable,
+  editvalue,
+}) {
+  const dispatch = useDispatch();
+  const editTodo = (i) => {
+    dispatch(editTodos(editvalue, i));
+    setEditable(-1);
+  };
   return (
     <form className="w-100" onSubmit={() => editTodo(i)}>
       {" "}
@@ -20,4 +33,5 @@ ListForm.propTypes = {
   item: PropTypes.object,
   i: PropTypes.number,
   setEditvalue: PropTypes.func,
+  editvalue:PropTypes.string
 };

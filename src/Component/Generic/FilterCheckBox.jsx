@@ -1,7 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { filterTodo } from "../../Redux/Actions";
+import { useDispatch } from "react-redux";
 
 export default function FilterCheckBox(props) {
+  const dispatch = useDispatch();
   return (
     <div className="form-check">
       <input
@@ -9,7 +12,7 @@ export default function FilterCheckBox(props) {
         type="radio"
         name="flexRadioDefault"
         id="flexRadioDefault1"
-        onClick={() => props.filter(`${props.type}`)}
+        onClick={() => dispatch(filterTodo(`${props.type}`))}
         defaultChecked={props.check}
       />
       <label className="form-check-label" for="flexRadioDefault1">
@@ -19,8 +22,7 @@ export default function FilterCheckBox(props) {
   );
 }
 FilterCheckBox.propTypes = {
-  filter: PropTypes.func,
   type: PropTypes.string,
   text: PropTypes.string,
-  check: PropTypes.bool,
+  check: PropTypes.bool
 };
